@@ -1,8 +1,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var tag: String = "prod_files_ecc_key"
+
     var body: some View {
         VStack {
+            LabeledContent("Key pair tag") {
+                TextField("", text: $tag)
+            }
             Button("Encrypt & decrypt") {
                 encryptDecrypt()
             }
@@ -13,9 +18,9 @@ struct ContentView: View {
         .padding()
     }
 
-    let tag = "prod_files_ecc_key"
-
     func encryptDecrypt() {
+        guard !tag.isEmpty else { return }
+
         do {
             let text = "Hello, world!"
 
@@ -49,6 +54,8 @@ struct ContentView: View {
     }
 
     func deleteKey() {
+        guard !tag.isEmpty else { return }
+
         do {
             try deleteKeyPair(tag: tag)
             print("Deleted key pair '\(tag)'")
